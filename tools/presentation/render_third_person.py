@@ -62,14 +62,14 @@ def main():
     sample_indices = public_demo['preview']['selected_source_row_indices']
     with tempfile.TemporaryDirectory(prefix='vista-presentation-') as scratch:
         scratch = Path(scratch)
-        for path in root.glob('*.py'):
+        for path in (root / 'src').glob('*.py'):
             shutil.copy2(path, scratch / path.name)
         (scratch / 'assets/natural').mkdir(parents=True)
         (scratch / 'assets/so101').symlink_to(root / 'assets/so101', target_is_directory=True)
         # All imported scene modules and generated assets live in this scratch tree.
         sys.path.insert(0, str(scratch))
         from replay_source import replay_environment
-        env, _ = replay_environment(episode, config, report)
+        env, _ = replay_environment(episode, config, report, asset_root=scratch)
         if config.get('centered_grasp'):
             env.meta['centered_grasp'] = True
             env.meta['observation_roll_rad'] = float(env.last_action[4])

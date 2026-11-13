@@ -3,7 +3,7 @@
 # Allow this development script to run from any working directory.
 import sys as _sys
 from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2] / 'src'))
 from project_paths import PROJECT_ROOT, project_source
 
 import argparse
@@ -23,7 +23,7 @@ def validate(episode, output):
     survey=json.loads(next(e['message']['tool_calls'][0]['function']['arguments'] for e in events
                          if e['kind']=='response' and e['call']==1))
     e,source=replay_environment(episode,config,report)
-    sys.path.insert(0,str(PROJECT_ROOT))
+    sys.path.insert(0,str(PROJECT_ROOT / 'src'))
     from vista import Session,robot_state,evaluate,depth_point
     from PIL import Image
     from visual_proposals import propose_bodies

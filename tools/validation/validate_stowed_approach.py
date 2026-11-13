@@ -1,7 +1,7 @@
 """Check a recorded visual target's pregrasp path from the new stowed pose."""
 import sys
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
 import argparse,json,tempfile
 import numpy as np
 from peduncle import PeduncleEnv

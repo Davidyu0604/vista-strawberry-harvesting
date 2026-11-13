@@ -1,7 +1,7 @@
 """Offline seed 12 prefix and bounded observation; no model or truth-based policy."""
 import sys
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
 import argparse,json,tempfile
 from copy import deepcopy
 import numpy as np
@@ -19,7 +19,7 @@ def validate(episode,out):
     review=request(3);frame='f0000108'
     original=next(e for e in events if e['kind']=='observation' and e['frame_id']==frame)
     env,source=replay_environment(episode,cfg,report)
-    sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+    sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
     from vista import Session
     error=0.;trace=[]
     try:

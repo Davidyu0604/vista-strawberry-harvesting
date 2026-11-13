@@ -37,6 +37,7 @@ from dotenv import dotenv_values
 from env import StrawberryEnv
 from run import Recorder
 from scene import ROOT
+from project_paths import project_source
 
 
 def obj(properties, required=None):
@@ -444,7 +445,7 @@ class Session:
         self.max_calls, self.max_wait, self.viewer = max_calls, max_wait, viewer
         self.frames = {}; self.calls = 0; self.finished = False
         self.require_delivery_before_finish=bool(centered_grasp and visual_proposals)
-        self.messages = [{'role': 'system', 'content': (ROOT/'vista_prompt.txt').read_text()}]
+        self.messages = [{'role': 'system', 'content': project_source('vista_prompt.txt').read_text()}]
         self.events = self.rec.out/'vista-events.jsonl'
         self.wait_ticks = 0
         self.receipts = []
@@ -528,7 +529,7 @@ class Session:
                             'status':'pending' if pregrasp_park_plus40 else 'disabled',
                             'requested_delta_y_m':.04,'grasp_height_offset_m':0.}
         if env.meta.get('harvest_mechanism'):
-            self.messages[0]['content'] = (ROOT/('peduncle_mobile_prompt.txt' if env.meta.get('basket_mount')=='chassis' else 'peduncle_prompt.txt')).read_text()
+            self.messages[0]['content'] = project_source('peduncle_mobile_prompt.txt' if env.meta.get('basket_mount')=='chassis' else 'peduncle_prompt.txt').read_text()
             if not env.meta.get('single_fruit_fixture'):
                 self.messages[0]['content']=self.messages[0]['content'].replace('单果草莓采摘实验','完整大棚草莓采摘任务')
                 self.messages[0]['content']+='\n当前恢复完整大棚：多颗草莓、叶片和枝梗均存在。每回合只采一颗可达的成熟草莓并送回固定筐。近景机位随车移动，选择其清晰可见的果柄；拟合被遮挡或含多个枝梗时应拒绝，不能沿用单果实验成功率。\n'
@@ -2324,8 +2325,8 @@ def main():
         r = Recorder(e, out, a.record_images, a.video)
         print(f'[VISTA] 日志目录：{out}', flush=True)
         if a.fixed_base:print('[VISTA] 固定采摘：初始底盘 y=0，不搜索移车、不优化停车；车前成熟度随机，成功摘下后仍送筐返回',flush=True)
-        (out/'system_prompt.txt').write_text((ROOT/'vista_prompt.txt').read_text())
-        sources = ['vista.py', 'vista_prompt.txt', 'peduncle.py', 'peduncle_prompt.txt', 'env.py', 'run.py', 'recording_quality.py', 'visual_maturity.py', 'preclose_vision.py', 'local_targets.py', 'target_parking.py', 'scene.py', 'chassis.py', 'mounted_basket.py', 'peduncle_mobile_prompt.txt', 'natural_assets.py', 'scene_details.py', 'grasp_pose.py', 'centered_grasp.py', 'visual_proposals.py', 'stalk_proposals.py', 'detachment_review.py', 'perception_recovery.py', 'proposal_identity.py', 'mobile_scene.py', 'unlisted_fruit_search.py', 'search_guidance.py']
+        (out/'system_prompt.txt').write_text(project_source('vista_prompt.txt').read_text())
+        sources = ['project_paths.py', 'vista.py', 'vista_prompt.txt', 'peduncle.py', 'peduncle_prompt.txt', 'env.py', 'run.py', 'recording_quality.py', 'visual_maturity.py', 'preclose_vision.py', 'local_targets.py', 'target_parking.py', 'scene.py', 'chassis.py', 'mounted_basket.py', 'peduncle_mobile_prompt.txt', 'natural_assets.py', 'scene_details.py', 'grasp_pose.py', 'centered_grasp.py', 'visual_proposals.py', 'stalk_proposals.py', 'detachment_review.py', 'perception_recovery.py', 'proposal_identity.py', 'mobile_scene.py', 'unlisted_fruit_search.py', 'search_guidance.py']
         (out/'run-config.json').write_text(json.dumps({
             'seed': a.seed, 'max_calls': a.max_calls, 'model': client.model, 'task': a.task,
             'pregrasp_park_plus40':a.pregrasp_park_plus40,'target_aware_parking':a.target_aware_parking,'fixed_base':a.fixed_base,
@@ -2341,10 +2342,10 @@ def main():
             'model_options': client.options, 'quality': 'fast', 'control_hz': 20,
             'mujoco_gl': os.environ.get('MUJOCO_GL'),
             'camera_recording': '20Hz' if a.record_images else 'decision_snapshots_only',
-            'source_sha256': {name: hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in sources}
+            'source_sha256': {name: hashlib.sha256(project_source(name).read_bytes()).hexdigest() for name in sources}
         }, indent=2))
         snapshot=out/'source';snapshot.mkdir()
-        for name in sources:(snapshot/name).write_bytes((ROOT/name).read_bytes())
+        for name in sources:(snapshot/name).write_bytes(project_source(name).read_bytes())
         if a.viewer:
             import mujoco.viewer
             viewer = mujoco.viewer.launch_passive(e.model, e.data)

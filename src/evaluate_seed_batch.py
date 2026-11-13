@@ -3,12 +3,12 @@ import argparse,hashlib,json,os,shutil,subprocess,sys,time
 from collections import Counter
 from pathlib import Path
 from recording_quality import atomic_json
-ROOT=Path(__file__).resolve().parent
+from project_paths import PROJECT_ROOT as ROOT, project_source, source_files
 SEEDS=[7,8,9,10,11]
 
 
 def hashes():
-    paths=list(ROOT.glob('*.py'))+list(ROOT.glob('*.txt'))
+    paths=source_files()
     if (ROOT/'vista-guide.md').exists():paths.append(ROOT/'vista-guide.md')
     return {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 
@@ -73,14 +73,14 @@ def main():
     if a.dry_run:print(json.dumps(plan,indent=2));return
     out.mkdir(parents=True,exist_ok=False);atomic_json(out/'plan.json',plan)
     (out/'source').mkdir()
-    for name in frozen:shutil.copy2(ROOT/name,out/'source'/name)
+    for name in frozen:shutil.copy2(project_source(name),out/'source'/name)
     results=[];stop=None
     for seed in seeds:
         if hashes()!=frozen:stop='Source changed; fixed-version batch stopped';break
         if shutil.disk_usage(out).free<2*1024**3:stop='Less than 2 GiB free; batch stopped before next episode';break
         dest=out/f'seed-{seed}'
         env=os.environ.copy();env.update(MUJOCO_GL='glfw',PYOPENGL_PLATFORM='glx',PYTHONPATH='',PYTHONNOUSERSITE='1')
-        command=[sys.executable,'-u',str(ROOT/'vista.py'),'--viewer','--peduncle-test','--seed',str(seed),'--max-calls','32','--record-images','--out',str(dest)]
+        command=[sys.executable,'-u',str(project_source('vista.py')),'--viewer','--peduncle-test','--seed',str(seed),'--max-calls','32','--record-images','--out',str(dest)]
         if a.pregrasp_park_plus40:command.append('--pregrasp-park-plus40')
         if a.target_aware_parking:command.append('--target-aware-parking')
         if a.preclose_visual_check:command.append('--preclose-visual-check')

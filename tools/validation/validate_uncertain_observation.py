@@ -3,7 +3,7 @@
 # Allow this development script to run from any working directory.
 import sys as _sys
 from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2] / 'src'))
 from project_paths import PROJECT_ROOT, project_source
 
 import argparse,json,tempfile,sys
@@ -17,7 +17,7 @@ def validate(episode,out):
     events=[json.loads(l) for l in (episode/'vista-events.jsonl').read_text().splitlines()]
     rows=[json.loads(l) for l in (episode/'trajectory.jsonl').read_text().splitlines()]
     e,physics_source=replay_environment(episode,config,report)
-    sys.path.insert(0,str(PROJECT_ROOT))
+    sys.path.insert(0,str(PROJECT_ROOT / 'src'))
     from vista import Session,robot_state
     from visual_proposals import reviewed_candidates
     from PIL import Image

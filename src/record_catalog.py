@@ -8,7 +8,7 @@ import os
 from pathlib import Path
 from urllib.parse import quote
 
-ROOT = Path(__file__).resolve().parent
+from project_paths import PROJECT_ROOT as ROOT, project_source, source_files
 
 
 def read_json(path):

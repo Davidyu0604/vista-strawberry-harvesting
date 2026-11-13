@@ -2,7 +2,7 @@
 import sys,json,tempfile
 from pathlib import Path
 import numpy as np
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
 from replay_source import replay_environment
 root=Path(__file__).resolve().parents[2];seed=int(sys.argv[1]);p=next((root/'reports/02_批量评估/fresh50-v1/seeds-16-25-20261112-134549').glob(f'batch-*/seed-{seed}'))
 ev=[json.loads(l) for l in (p/'vista-events.jsonl').read_text().splitlines()];r=json.loads((p/'report.json').read_text());cfg=json.loads((p/'run-config.json').read_text())

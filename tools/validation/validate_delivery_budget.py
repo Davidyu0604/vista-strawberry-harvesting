@@ -1,7 +1,7 @@
 """Offline delivery regression; no model calls, images or dataset export."""
 import sys,json,tempfile
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
 import numpy as np
 from replay_source import replay_environment
 import argparse
@@ -20,7 +20,7 @@ if args.stowed_return:
  q,ik_error=e.ik(stowed_home,1.,start=[0,-.3,.45,.25,0,1.])
  assert ik_error<.006
  stowed_roll=float(q[4])
-sys.path.insert(0,str(root))
+sys.path.insert(0,str(root / 'src'))
 from vista import Session,evaluate,jaw_contact_state
 from centered_grasp import CenteredGrasp
 trace=[];err=0

@@ -10,7 +10,7 @@ import unittest
 import numpy as np
 from PIL import Image
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from export_act_dataset import export, jpeg_episode_data, verify_export
 from recording_quality import audit_recording, phase_labels
 

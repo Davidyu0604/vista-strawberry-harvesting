@@ -2,7 +2,7 @@
 import argparse,hashlib,importlib.util,json,sys
 from pathlib import Path
 import numpy as np
-ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
+ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT / 'src'))
 
 
 def distribution(out,count):
@@ -73,7 +73,7 @@ def validate_scene(seed,out):
             assert visible>=50,(seed,side,visible)
         result['warnings']=[int(w.number) for w in env.data.warning];assert not any(result['warnings'])
         result['all_fruit_attached']=bool(env.attached.all());assert result['all_fruit_attached']
-        result['source_sha256']={n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in ('mobile_scene.py','scene.py','peduncle.py')}
+        result['source_sha256']={n:hashlib.sha256((ROOT/'src'/n).read_bytes()).hexdigest() for n in ('mobile_scene.py','scene.py','peduncle.py')}
         (out/f'seed{seed}.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
         print('Scene passed:',seed,{k:result[k] for k in ('negative_max_visible_body_pixels','positive_max_visible_body_pixels','warnings')},flush=True)
     finally:env.close()

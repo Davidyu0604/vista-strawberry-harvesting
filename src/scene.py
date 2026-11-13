@@ -5,7 +5,7 @@ import numpy as np
 from natural_assets import textures, leaf_mesh, ridge_mesh
 from scene_details import decorate
 
-ROOT = Path(__file__).resolve().parent
+from project_paths import PROJECT_ROOT as ROOT, project_source, source_files
 from chassis import BASE_Z, build_chassis
 JOINTS = ['shoulder_pan','shoulder_lift','elbow_flex','wrist_flex','wrist_roll','gripper']
 

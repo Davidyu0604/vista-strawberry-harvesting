@@ -20,7 +20,7 @@
 
 **现象。** 机器人选择沿行某一方向移动，但该方向可能没有可采成熟果，继续观察与往返搜索消耗调用预算。
 
-**分析与修改。** 将目标分布与搜索决策分开检查。当前 moderate 的 v23 场景在起点沿行两个方向 26–38 cm 内各布置成熟果，同时保留附近未熟果和遮挡；随机化约束见 [`mobile_scene.py`](../mobile_scene.py)，验证入口见 [`validate_bilateral_layout.py`](../tools/validation/validate_bilateral_layout.py)。
+**分析与修改。** 将目标分布与搜索决策分开检查。当前 moderate 的 v23 场景在起点沿行两个方向 26–38 cm 内各布置成熟果，同时保留附近未熟果和遮挡；随机化约束见 [`mobile_scene.py`](../src/mobile_scene.py)，验证入口见 [`validate_bilateral_layout.py`](../tools/validation/validate_bilateral_layout.py)。
 
 **结论边界。** 这是可达采摘机会的场景设计变更，不等于搜索算法本身提升。评估应固定场景版本，旧版与新版数据分开描述。
 
@@ -28,7 +28,7 @@
 
 **现象。** 同果片段、跨视角深度偏差、果柄遮挡会触发重复复核。若一个不确定候选阻止所有后续动作，模型可能在查图与被拒绝之间循环。
 
-**分析与修改。** 保留明确成熟候选的处理机会，将不确定候选暂缓；根据当前证据调整观察或移动后重看。候选状态和恢复条件主要位于 [`perception_recovery.py`](../perception_recovery.py) 与 [`local_targets.py`](../local_targets.py)，相关回归用例包括 [`test_uncertainty_deferral.py`](../tests/test_uncertainty_deferral.py)。
+**分析与修改。** 保留明确成熟候选的处理机会，将不确定候选暂缓；根据当前证据调整观察或移动后重看。候选状态和恢复条件主要位于 [`perception_recovery.py`](../src/perception_recovery.py) 与 [`local_targets.py`](../src/local_targets.py)，相关回归用例包括 [`test_uncertainty_deferral.py`](../tests/test_uncertainty_deferral.py)。
 
 **结论边界。** 恢复分支的离线测试不能替代整回合成功率。公开的 seed 60 回放可以看到观察调整与搜索过程，但单次成功不证明所有遮挡情况均已解决。
 
@@ -36,7 +36,7 @@
 
 **现象。** 外部模型响应期间仿真仍记录数据，大量稳定等待会增加训练数据体积。直接删除“机器人没动”的帧，又可能误删夹持稳定、接触确认和释放后的必要保持。
 
-**分析与修改。** [`training_preparation.py`](../training_preparation.py) 限定可压缩阶段，使用关节、TCP、底盘、果实、命令及接触状态的稳定性判据，并保留片段边界。处理副本保留源帧映射，原始记录不变；[`export_act_dataset.py`](../export_act_dataset.py) 核查导出后的状态、动作和原 JPEG 字节。
+**分析与修改。** [`training_preparation.py`](../src/training_preparation.py) 限定可压缩阶段，使用关节、TCP、底盘、果实、命令及接触状态的稳定性判据，并保留片段边界。处理副本保留源帧映射，原始记录不变；[`export_act_dataset.py`](../src/export_act_dataset.py) 核查导出后的状态、动作和原 JPEG 字节。
 
 **已验证结果。** 60 条记录减少 23,685 帧稳定等待，全部非等待帧保留。验证证据见[结果页](results.md)。这项结果说明数据处理正确性与存储／序列长度变化，尚未证明 ACT 采摘性能改善。
 

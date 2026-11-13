@@ -3,7 +3,7 @@ import sys,json,tempfile,unittest
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock,patch
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1] / 'src'))
 from vista import Session
 from collect_fresh50 import inspect_episode
 

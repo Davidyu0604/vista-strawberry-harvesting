@@ -3,7 +3,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
-ASSETS=Path(__file__).resolve().parent/'assets/natural'
+from project_paths import PROJECT_ROOT
+ASSETS=PROJECT_ROOT/'assets/natural'
 
 def obj(path, vertices, faces, uv=None):
     lines=['v '+' '.join(f'{a:.7g}' for a in p) for p in vertices]

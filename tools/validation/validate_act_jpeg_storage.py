@@ -10,7 +10,7 @@ from pathlib import Path
 import sys
 import tempfile
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'src'))
 import numpy as np
 from PIL import Image
 from export_act_dataset import JOINTS, TASK, jpeg_episode_data, verify_embedded_jpegs

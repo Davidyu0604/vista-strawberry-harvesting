@@ -10,7 +10,7 @@ import sys
 from export_act_dataset import check_harvest
 from recording_quality import atomic_json, audit_recording
 
-ROOT = Path(__file__).resolve().parent
+from project_paths import PROJECT_ROOT as ROOT, project_source, source_files
 FLAGS = [
     '--peduncle-test', '--viewer', '--record-images', '--allow-row-search',
     '--mobile-layout', '--mobile-layout-level', 'moderate',
@@ -20,7 +20,7 @@ FLAGS = [
 
 def source_hashes():
     return {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-            for p in sorted([*ROOT.glob('*.py'), *ROOT.glob('*.txt')])}
+            for p in source_files()}
 
 
 def inspect_episode(dest, seed, code, frozen):
@@ -106,7 +106,7 @@ def main():
                 status['active_seed'] = seed
                 atomic_json(out / 'collection-summary.json', status)
                 print(f'\n[COLLECT] batch={batch_index} seed={seed} out={dest}', flush=True)
-                command = [sys.executable, '-u', str(ROOT / 'vista.py'), *FLAGS,
+                command = [sys.executable, '-u', str(project_source('vista.py')), *FLAGS,
                            '--seed', str(seed), '--out', str(dest)]
                 # Inherit terminal output so the user sees every model/tool call.
                 code = subprocess.run(command, env=env).returncode

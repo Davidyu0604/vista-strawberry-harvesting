@@ -7,7 +7,7 @@ diagnostic, not an exact historical replay or a new online success-rate sample.
 # Allow this development script to run from any working directory.
 import sys as _sys
 from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2] / 'src'))
 from project_paths import PROJECT_ROOT, project_source
 
 import argparse

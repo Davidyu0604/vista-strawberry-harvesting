@@ -37,12 +37,12 @@ flowchart TB
 
 | 模块 | 负责什么 | 主要源码 |
 |---|---|---|
-| 视觉模型与工具循环 | 接收图像、判断候选、请求工具，管理执行反馈 | [`vista.py`](../vista.py)、提示词文件 |
-| 候选与身份 | 保存局部候选，处理跨视角对应与重复片段 | [`local_targets.py`](../local_targets.py)、[`proposal_identity.py`](../proposal_identity.py) |
-| 图像与深度定位 | 提出图像候选，拟合短果柄，结合视角证据定位 | [`visual_proposals.py`](../visual_proposals.py)、[`stalk_proposals.py`](../stalk_proposals.py) |
-| 恢复与搜索 | 复核不确定候选、调整观察、沿行移动后重看 | [`perception_recovery.py`](../perception_recovery.py)、[`search_guidance.py`](../search_guidance.py) |
-| 运动执行 | 居中夹持、分阶段拉摘、搬运及返回 | [`centered_grasp.py`](../centered_grasp.py)、[`vista.py`](../vista.py) |
-| 仿真 | 场景布局、机械臂与底盘、果柄约束与车载筐 | [`scene.py`](../scene.py)、[`peduncle.py`](../peduncle.py)、[`mounted_basket.py`](../mounted_basket.py) |
+| 视觉模型与工具循环 | 接收图像、判断候选、请求工具，管理执行反馈 | [`vista.py`](../src/vista.py)、提示词文件 |
+| 候选与身份 | 保存局部候选，处理跨视角对应与重复片段 | [`local_targets.py`](../src/local_targets.py)、[`proposal_identity.py`](../src/proposal_identity.py) |
+| 图像与深度定位 | 提出图像候选，拟合短果柄，结合视角证据定位 | [`visual_proposals.py`](../src/visual_proposals.py)、[`stalk_proposals.py`](../src/stalk_proposals.py) |
+| 恢复与搜索 | 复核不确定候选、调整观察、沿行移动后重看 | [`perception_recovery.py`](../src/perception_recovery.py)、[`search_guidance.py`](../src/search_guidance.py) |
+| 运动执行 | 居中夹持、分阶段拉摘、搬运及返回 | [`centered_grasp.py`](../src/centered_grasp.py)、[`vista.py`](../src/vista.py) |
+| 仿真 | 场景布局、机械臂与底盘、果柄约束与车载筐 | [`scene.py`](../src/scene.py)、[`peduncle.py`](../src/peduncle.py)、[`mounted_basket.py`](../src/mounted_basket.py) |
 
 模型调用工具后会获得实际执行或拒绝原因，下一轮基于新的观察继续决策。几何定位、运动执行和结果验收都有明确的代码边界；不能把整个系统描述为视觉模型直接端到端输出关节控制。
 

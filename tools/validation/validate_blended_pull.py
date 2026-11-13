@@ -3,7 +3,7 @@
 # Allow this development script to run from any working directory.
 import sys as _sys
 from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2] / 'src'))
 from project_paths import PROJECT_ROOT, project_source
 
 import argparse
@@ -23,7 +23,7 @@ def validate(episode,out,preview_dir=None,pull_only=False):
     lock=next(e['result'] for e in events if e['kind']=='receipt' and isinstance(e.get('result'),dict)
               and e['result'].get('target_confirmed') and e['result'].get('locked_target_m'))
     env,source=replay_environment(episode,config,report)
-    sys.path.insert(0,str(PROJECT_ROOT))
+    sys.path.insert(0,str(PROJECT_ROOT / 'src'))
     from vista import Session,evaluate,jaw_contact_state
     trace=[];max_error=0.;phase=None;preview_count=0
     def preview(label):

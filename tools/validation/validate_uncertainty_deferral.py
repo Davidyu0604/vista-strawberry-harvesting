@@ -10,7 +10,7 @@ from pathlib import Path
 import sys
 import numpy as np
 ROOT=Path(__file__).resolve().parents[2]
-sys.path.insert(0,str(ROOT))
+sys.path.insert(0,str(ROOT / 'src'))
 
 
 def validate(env, episode, output, prefix, call, mode, error):
@@ -74,7 +74,7 @@ def validate(env, episode, output, prefix, call, mode, error):
         result['fresh_frame']=after;result['fresh_proposals']=session.proposal_frames[after]
     result.update(trace=trace,warnings=[int(w.number) for w in env.data.warning],
                   attached_all_offline=bool(env.attached.all()),
-                  source_sha256={n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in ('vista.py','local_targets.py','perception_recovery.py')})
+                  source_sha256={n:hashlib.sha256((ROOT/'src'/n).read_bytes()).hexdigest() for n in ('vista.py','local_targets.py','perception_recovery.py')})
     assert not any(result['warnings']);assert result['attached_all_offline']
     output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({k:result[k] for k in ('prefix_frames','prefix_error','mode','new_next_action','warnings')},ensure_ascii=False),flush=True)

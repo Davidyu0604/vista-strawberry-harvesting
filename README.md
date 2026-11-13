@@ -67,7 +67,7 @@ flowchart LR
 | 稳定等待压缩 | 100,211 → 76,526 帧，减少 **23.64%**；全部非等待帧保留 |
 | 导出一致性 | **153,052 张 JPEG** 逐字节核验通过，状态与动作核对通过 |
 | GPU 链路 | RTX 4060 Laptop 上完成 ACT 短程训练、检查点恢复与参数更新验证 |
-| ACT 闭环采摘 | **尚未评估**；离线训练误差不等于采摘成功率 |
+| ACT 闭环采摘 | seed 61 与训练 seed 46 测试尚无成功；seed 46 单条微调已测至累计 1,500 步，仍未夹持 |
 
 以上为 2026-11-13 的本地数据处理与链路验证快照。原始数据、数据集和权重未随 Git 仓库发布；已提供[汇总证据](docs/evidence/data-summary.json)、[评估口径与限制](docs/results.md)。数据来自两个场景版本，不作为固定版本基准成功率。
 
@@ -80,7 +80,7 @@ git clone https://github.com/Davidyu0604/vista-strawberry-harvesting.git
 cd vista-strawberry-harvesting
 python3.12 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements-vista.txt
+python -m pip install -r requirements/requirements-vista.txt
 cp .env.example .env
 ```
 
@@ -96,13 +96,15 @@ cp .env.example .env
 
 ## 代码导航
 
+源码在 `src/`，本机启动脚本在 `scripts/`，提示词在 `prompts/`，依赖清单在 `requirements/`。完整结构见[目录说明](docs/FILES.md)。
+
 | 入口 | 作用 |
 |---|---|
-| [`vista.py`](vista.py) | 视觉模型交互与工具调度 |
-| [`scene.py`](scene.py) · [`mobile_scene.py`](mobile_scene.py) | 大棚与移动搜索场景 |
-| [`peduncle.py`](peduncle.py) · [`centered_grasp.py`](centered_grasp.py) | 果柄物理与夹持、拉摘控制 |
-| [`training_preparation.py`](training_preparation.py) · [`export_act_dataset.py`](export_act_dataset.py) | 数据处理与 LeRobot 导出 |
-| [`train_act.py`](train_act.py) | ACT 训练、离线验证和续训 |
+| [`vista.py`](src/vista.py) | 视觉模型交互与工具调度 |
+| [`scene.py`](src/scene.py) · [`mobile_scene.py`](src/mobile_scene.py) | 大棚与移动搜索场景 |
+| [`peduncle.py`](src/peduncle.py) · [`centered_grasp.py`](src/centered_grasp.py) | 果柄物理与夹持、拉摘控制 |
+| [`training_preparation.py`](src/training_preparation.py) · [`export_act_dataset.py`](src/export_act_dataset.py) | 数据处理与 LeRobot 导出 |
+| [`train_act.py`](src/train_act.py) | ACT 训练、离线验证和续训 |
 | [`tests/`](tests/) · [`tools/`](tools/) | 自动测试、诊断与验证工具 |
 
 开发细节见 [GUIDE](GUIDE.md) 和[文件说明](docs/FILES.md)。[本机历史笔记](docs/local-development-notes.md)保留旧实验过程，含未公开的本地数据引用。

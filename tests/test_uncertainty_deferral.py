@@ -4,7 +4,7 @@ from copy import deepcopy
 from types import SimpleNamespace
 from unittest.mock import Mock,patch
 from PIL import Image
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1] / 'src'))
 from local_targets import LocalTargets
 from perception_recovery import uncertain_viewpoint_search_available,review_proposals,MISSING_BLOCK,current_body_proposals,observation_adjustment_available
 from visual_proposals import reviewed_candidates

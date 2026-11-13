@@ -3,7 +3,7 @@
 # Allow this development script to run from any working directory.
 import sys as _sys
 from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2] / 'src'))
 from project_paths import PROJECT_ROOT, project_source
 
 import argparse,json,sys,tempfile
@@ -21,7 +21,7 @@ def validate(episode,out):
     completed=next(e['result']['recovery'] for e in events if e['kind']=='receipt' and e['call']==4)
     assert completed['semantic_review_only'] and completed['end_frame']==694
     env,source=replay_environment(episode,json.loads((episode/'run-config.json').read_text()),json.loads((episode/'report.json').read_text()))
-    sys.path.insert(0,str(PROJECT_ROOT))
+    sys.path.insert(0,str(PROJECT_ROOT / 'src'))
     from vista import Session
     from perception_recovery import review_proposals,exhausted_observation_recovery
     from visual_proposals import reviewed_candidates

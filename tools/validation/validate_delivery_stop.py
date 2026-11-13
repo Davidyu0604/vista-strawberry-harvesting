@@ -3,7 +3,7 @@
 # Allow this development script to run from any working directory.
 import sys as _sys
 from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2] / 'src'))
 from project_paths import PROJECT_ROOT, project_source
 
 import argparse
@@ -26,7 +26,7 @@ def validate(episode,out):
                        for row in rows[prefix:first]):
         raise ValueError('Expected stationary pre-delivery prefix')
     env,source=replay_environment(episode,config,report)
-    sys.path.insert(0,str(PROJECT_ROOT))
+    sys.path.insert(0,str(PROJECT_ROOT / 'src'))
     from vista import Session,MotionSafetyStop,robot_state
     from peduncle import BEND_THRESHOLD,EXTENSION_THRESHOLD,TENSION_THRESHOLD
     events=[];trace=[];metrics=[];max_error=0.;model_calls=[]

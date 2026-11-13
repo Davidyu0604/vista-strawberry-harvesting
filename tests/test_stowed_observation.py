@@ -1,7 +1,7 @@
 """The observation posture must survive driving and return without scene changes."""
 import sys
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1] / 'src'))
 import tempfile
 import unittest
 import subprocess,json,hashlib
@@ -25,7 +25,7 @@ class StowedObservationTests(unittest.TestCase):
                 self.assertLess(np.linalg.norm(e.data.site_xpos[e.tcp]-ready_point(e)),.004)
                 # A recorded new initial posture must replay exactly. Historical
                 # episodes without the config field retain the legacy default.
-                source_root=Path(__file__).resolve().parents[1]
+                source_root=Path(__file__).resolve().parents[1]/'src'
                 config={'seed':5,'quality':'fast','basket_mount':'chassis','mobile_layout':True,
                         'mobile_layout_level':'moderate','initial_arm_pose':'search_stow',
                         'source_sha256':{name:hashlib.sha256((source_root/name).read_bytes()).hexdigest()

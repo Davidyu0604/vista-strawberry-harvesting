@@ -1,11 +1,12 @@
-"""Paths for relocated development tools; online control does not import this."""
+"""Repository paths shared by source snapshots, entry points and developer tools."""
 from pathlib import Path
 import sys
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+SOURCE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SOURCE_DIR.parent
+PROMPT_DIR = PROJECT_ROOT / 'prompts'
 DEVELOPMENT_DIRS = ('tests', 'tools/validation', 'tools/diagnostics')
 
-# Keep direct script execution and unittest discovery independent of cwd.
 for relative in DEVELOPMENT_DIRS:
     path = str(PROJECT_ROOT / relative)
     if path not in sys.path:
@@ -13,12 +14,17 @@ for relative in DEVELOPMENT_DIRS:
 
 
 def project_source(name):
-    """Resolve a source filename for offline hash reports after relocation."""
-    path = PROJECT_ROOT / name
-    if path.is_file():
-        return path
+    """Resolve current code/prompts; historical snapshots keep their original names."""
+    for directory in (SOURCE_DIR, PROMPT_DIR, PROJECT_ROOT):
+        path = directory / name
+        if path.is_file():
+            return path
     matches = [PROJECT_ROOT / directory / name for directory in DEVELOPMENT_DIRS
                if (PROJECT_ROOT / directory / name).is_file()]
     if len(matches) != 1:
         raise FileNotFoundError(f'Expected one project source for {name!r}')
     return matches[0]
+
+
+def source_files():
+    return sorted([*SOURCE_DIR.glob('*.py'), *PROMPT_DIR.glob('*.txt')])

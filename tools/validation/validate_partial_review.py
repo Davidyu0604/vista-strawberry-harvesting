@@ -1,7 +1,7 @@
 """Replay seed 5's saved semantic review through dispatch, without model or motion."""
 import sys
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
 import argparse
 import json
 import tempfile

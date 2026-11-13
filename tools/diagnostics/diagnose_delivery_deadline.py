@@ -1,7 +1,7 @@
 """Replay original commands without changing motion or requesting a model."""
 import sys,json
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
 import numpy as np
 from replay_source import replay_environment
 import argparse

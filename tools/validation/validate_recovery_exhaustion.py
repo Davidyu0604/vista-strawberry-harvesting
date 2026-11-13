@@ -3,7 +3,7 @@
 # Allow this development script to run from any working directory.
 import sys as _sys
 from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2] / 'src'))
 from project_paths import PROJECT_ROOT, project_source
 
 import argparse,json,sys,tempfile
@@ -19,7 +19,7 @@ def validate(episode,out):
     original=next(e for e in events if e['kind']=='observation' and e['frame_id']==request['basis_frame_id'])
     completed=next(e['result']['recovery']['end_frame'] for e in events if e['kind']=='receipt' and e['call']==3)
     env,source=replay_environment(episode,json.loads((episode/'run-config.json').read_text()),json.loads((episode/'report.json').read_text()))
-    sys.path.insert(0,str(PROJECT_ROOT))
+    sys.path.insert(0,str(PROJECT_ROOT / 'src'))
     from vista import Session
     from perception_recovery import exhausted_observation_recovery
     error=0.;trace=[]

@@ -3,7 +3,7 @@
 # Allow this development script to run from any working directory.
 import sys as _sys
 from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2] / 'src'))
 from project_paths import PROJECT_ROOT, project_source
 
 import argparse,json,hashlib
@@ -19,7 +19,7 @@ def verify(episode,out,legacy=False):
     target=next(r['result']['locked_target_m'] for r in events if r['kind']=='receipt' and isinstance(r.get('result'),dict) and r['result'].get('target_confirmed'))
     e=PeduncleEnv(seed=cfg['seed'],single=False,render_quality=cfg['quality'])
     rows=[json.loads(l) for l in (episode/'trajectory.jsonl').read_text().splitlines()]
-    result={'controller_sha256':hashlib.sha256((PROJECT_ROOT/'vista.py').read_bytes()).hexdigest(),'legacy_approach':legacy,'source':str(episode),'max_replay_joint_error_rad':0.,'target_m':target}
+    result={'controller_sha256':hashlib.sha256(project_source('vista.py').read_bytes()).hexdigest(),'legacy_approach':legacy,'source':str(episode),'max_replay_joint_error_rad':0.,'target_m':target}
     try:
         for row_index,row in enumerate(rows):
             result['max_replay_joint_error_rad']=max(result['max_replay_joint_error_rad'],float(np.max(np.abs(e.state()-row['state']))))

@@ -4,7 +4,7 @@ from pathlib import Path
 from copy import deepcopy
 from types import SimpleNamespace
 from unittest.mock import Mock,patch
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
 from vista import Session
 from perception_recovery import MISSING_BLOCK
 root=Path(__file__).resolve().parents[2]

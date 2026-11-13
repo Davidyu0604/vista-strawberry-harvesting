@@ -1,7 +1,7 @@
 """Replay seed 8's archived localization and verify bounded view recovery; no API."""
 import sys
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
 import argparse,json,tempfile
 from copy import deepcopy
 import numpy as np
@@ -16,7 +16,7 @@ def validate(episode,out):
     tool=response['message']['tool_calls'][0]['function']
     args=json.loads(tool['arguments']);receipt_frame=873
     env,source=replay_environment(episode,json.loads((episode/'run-config.json').read_text()),json.loads((episode/'report.json').read_text()))
-    sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+    sys.path.insert(0,str(Path(__file__).resolve().parents[2] / 'src'))
     from vista import Session
     from perception_recovery import out_of_view_after_recovery
     error=0.;trace=[]

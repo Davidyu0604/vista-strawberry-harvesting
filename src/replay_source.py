@@ -4,14 +4,15 @@ import importlib
 import inspect
 from pathlib import Path
 import sys
+from project_paths import PROJECT_ROOT, SOURCE_DIR
 
 
-def replay_environment(episode, config, report):
-    root = Path(__file__).resolve().parent
+def replay_environment(episode, config, report, *, asset_root=None):
+    root = Path(asset_root) if asset_root is not None else PROJECT_ROOT
     required = ['peduncle.py', 'env.py', 'scene.py', 'chassis.py']
-    required += [n for n in ('mounted_basket.py', 'natural_assets.py', 'scene_details.py', 'mobile_scene.py')
+    required += [n for n in ('mounted_basket.py', 'natural_assets.py', 'scene_details.py', 'mobile_scene.py', 'project_paths.py')
                  if n in config['source_sha256']]
-    candidates = [root, episode/'source', episode.parent/'source', episode.parent.parent/'source']
+    candidates = [SOURCE_DIR, episode/'source', episode.parent/'source', episode.parent.parent/'source']
     def matches(directory):
         return all((directory/n).is_file() and
                    hashlib.sha256((directory/n).read_bytes()).hexdigest() == config['source_sha256'][n]
