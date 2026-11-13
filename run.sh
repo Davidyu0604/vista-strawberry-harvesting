@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+TASK_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PYTHONPATH=
+export PYTHONNOUSERSITE=1
+exec "$TASK_DIR/../.venv-vista/bin/python" "$TASK_DIR/run.py" "$@"

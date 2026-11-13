@@ -1,0 +1,34 @@
+.env
+__pycache__/
+
+# 密钥与本地配置
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python环境与缓存
+.venv*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.act-deps/
+.hf-cache/
+.torch-cache/
+
+# 采集数据、实验结果和训练产物
+recordings/
+reports/
+datasets/
+training/
+versions/
+*.pt
+*.pth
+*.safetensors
+*.log
+
+# 自动生成的场景和历史归档
+/assets/natural/
+/scene.xml
+/scene.json
+/docs/*.tar.gz

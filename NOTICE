@@ -1,0 +1,10 @@
+VISTA Strawberry Harvesting
+Copyright 2026 Davidyu0604
+
+Original project code and documentation are licensed under Apache-2.0.
+Third-party materials retain their respective copyright and license notices.
+
+SO101 robot assets in assets/so101/ originate from TheRobotStudio/SO-ARM100.
+The upstream Apache-2.0 license is preserved in assets/so101/LICENSE.
+See assets/so101/SOURCE.json for the pinned revision, source paths, file
+hashes, and runtime adaptation notes.
