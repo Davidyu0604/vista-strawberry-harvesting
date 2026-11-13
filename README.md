@@ -6,19 +6,36 @@
 
 Vision-guided harvesting · MuJoCo · SO101 · ACT
 
-[演示](#真实仿真演示) · [快速开始](docs/getting-started.md) · [系统架构](docs/architecture.md) · [实验结果](docs/results.md) · [技术案例](docs/engineering.md)
+[场景](#大棚与小车) · [演示](#真实仿真演示) · [快速开始](docs/getting-started.md) · [系统架构](docs/architecture.md) · [实验结果](docs/results.md) · [技术案例](docs/engineering.md)
 
 </div>
 
+## 大棚与小车
+
+| 大棚全景 | 小车、SO101 与车载筐 |
+|---|---|
+| [![大棚全景，两垄草莓与中央通道](docs/media/third-person/greenhouse-overview.png)](docs/media/third-person/greenhouse-overview.png) | [![小车第三视角，底盘、机械臂和车载筐](docs/media/third-person/robot-third-person.png)](docs/media/third-person/robot-third-person.png) |
+
+同一 seed 60 场景的两种展示视角，点击查看原图。第三视角仅用于展示，不加入模型观测或 ACT 训练输入。
+
 ## 真实仿真演示
 
-[![双路相机采摘演示：观察、搜索、夹持、拉摘、投筐和返回](docs/media/seed-060-preview.gif)](docs/media/seed-060-preview.mp4)
+[![第三视角采摘回放：搜索、夹持、拉摘、投筐与返回](docs/media/third-person/seed-060-third-person.gif)](docs/media/third-person/seed-060-third-person.mp4)
 
-**Seed 60 · 双相机同步记录 · 约 33 秒预览**
+**Seed 60 · 第三视角物理回放 · 约 33 秒预览**
 
-预览压缩了经检测稳定的等待片段，并按 2 倍速播放；画面标注原始时间和执行阶段。
+从原始控制指令重放物理过程，并用新增的外部相机拍摄；逐帧核对机器人状态、底盘位姿和 TCP，复核拉摘事件与独立入筐验收。展示视频压缩稳定等待并按 2 倍速播放，标注原始时间和阶段。
 
-[预览 MP4](docs/media/seed-060-preview.mp4) · [完整原速 MP4（105.6 秒，保留全部帧）](docs/media/seed-060-full.mp4) · [原图关键帧](docs/media/seed-060-poster.png) · [来源与剪辑说明](docs/media/README.md)
+[第三视角 MP4](docs/media/third-person/seed-060-third-person.mp4) · [回放校验](docs/media/third-person/third-person-replay.json) · [双路相机完整原速 MP4（105.6 秒）](docs/media/seed-060-full.mp4)
+
+<details>
+<summary>查看原始双路相机视角：近景与腕部</summary>
+
+[![双路相机采摘演示](docs/media/seed-060-preview.gif)](docs/media/seed-060-preview.mp4)
+
+[双路预览 MP4](docs/media/seed-060-preview.mp4) · [原图关键帧](docs/media/seed-060-poster.png) · [来源与剪辑说明](docs/media/README.md)
+
+</details>
 
 这是一次 **VISTA 风格视觉／工具控制器**的成功仿真示例，包含观察恢复、沿行搜索、果柄夹持、拉摘、投筐与返回；不是 ACT 策略演示，也不代表整体成功率。
 
