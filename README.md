@@ -28,14 +28,11 @@ Vision-guided harvesting · MuJoCo · SO101 · ACT
 
 [第三视角 MP4](docs/media/third-person/seed-060-third-person.mp4) · [回放校验](docs/media/third-person/third-person-replay.json) · [双路相机完整原速 MP4（105.6 秒）](docs/media/seed-060-full.mp4)
 
-<details>
-<summary>查看原始双路相机视角：近景与腕部</summary>
+### 原始双路相机视角：近景与腕部
 
 [![双路相机采摘演示](docs/media/seed-060-preview.gif)](docs/media/seed-060-preview.mp4)
 
 [双路预览 MP4](docs/media/seed-060-preview.mp4) · [原图关键帧](docs/media/seed-060-poster.png) · [来源与剪辑说明](docs/media/README.md)
-
-</details>
 
 这是一次 **VISTA 风格视觉／工具控制器**的成功仿真示例，包含观察恢复、沿行搜索、果柄夹持、拉摘、投筐与返回；不是 ACT 策略演示，也不代表整体成功率。
 
